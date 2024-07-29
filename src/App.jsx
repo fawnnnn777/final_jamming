@@ -1,12 +1,24 @@
-import React from "react";
+import React, { useState } from "react";
 import './App.css'
+import Searchbar from "./Searchbar";
 
 function App(){
-    return ( 
+    const [count, setCount] = useState(0)
+
+    const handleclick = () =>{
+        setCount(count +1 )
+    }
+    return(
         <>
-            <h1>hello world</h1>
-        </>
+    <h1>{count}</h1>
+    <button onClick={handleclick}>count</button>
+
+    <Searchbar/>
+
+    </>
+
     )
+    
 }
 
 export default App
