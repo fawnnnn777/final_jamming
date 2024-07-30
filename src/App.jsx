@@ -1,20 +1,15 @@
 import React, { useState } from "react";
 import './App.css'
-import Searchbar from "./Searchbar";
+import Track from "./Track";
+import Results from "./Results";
 
 function App(){
-    const [count, setCount] = useState(0)
 
-    const handleclick = () =>{
-        setCount(count +1 )
-    }
     return(
         <>
-    <h1>{count}</h1>
-    <button onClick={handleclick}>count</button>
-
-    <Searchbar/>
-
+    <h1>Spotify Jamming</h1>
+        <Results></Results>
+ 
     </>
 
     )

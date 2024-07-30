@@ -1,3 +1,9 @@
-h1{
-  color: red;
+body{
+  background-color: rgba(141, 187, 247, 0.767);
+  background-image: url('styles/background.webp');
+  background-size: cover;
 }
+*{
+  font-family: "Montserrat", sans-serif;
+}
+
