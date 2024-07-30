@@ -1,6 +1,4 @@
-import React, { useState } from "react";
 import './App.css'
-import Track from "./Track";
 import Results from "./Results";
 
 function App(){
