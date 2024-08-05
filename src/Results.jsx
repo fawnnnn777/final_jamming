@@ -2,14 +2,14 @@ import React from "react";
 import Track from "./Track";
 import styles from './styles/results.module.css'
 
-function Results(){
+function Results(props){
     return(
         <>
         <div className={styles.resultsDiv}>
             <h1>Results</h1>
-            <Track></Track>
-            <Track></Track>
-            <Track></Track>
+            {props.songs.map((song)=>{
+                return <Track name={song.name} album={song.album} artist={song.artist}></Track>
+            })}
         </div>
         </>
     )
