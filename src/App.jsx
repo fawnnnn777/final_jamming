@@ -10,6 +10,40 @@ function App(){
 
     const [accessToken, setAccessToken] = useState(null)
 
+    useEffect(()=>{
+        const params = getHashParams()
+        if(params.access_token){
+            setAccessToken(params.access_token)
+        }
+    },[])
+
+
+    const getHashParams = () => {
+        const hashParams = {};
+        let e;
+        const r = /([^&;=]+)=?([^&;]*)/g;
+        const q = window.location.hash.substring(1);
+        // eslint-disable-next-line
+        while (e = r.exec(q)) {
+          hashParams[e[1]] = decodeURIComponent(e[2]);
+        }
+        return hashParams;
+      };
+
+    const handleAuthorize = ()=>{
+        const client_id = '66ad9f06e98a41d3b9c4210d7b4eb5c0'
+        const redirect_url = 'http://localhost:3000'
+        const scopes = 'playlist-modify-private playlist-modify-public user-read-private'
+        let url = 'https://fawnjamming.netlify.app/' + 
+        '?response_type=token' +
+        '&client_id=' + encodeURIComponent(client_id) +
+        '&redirect_uri=' + encodeURIComponent(redirect_url)+
+        '&scope=' + encodeURIComponent(scopes)
+
+        window.location = url
+    }
+
+
     async function fetchSongs(query){
         let songs = []
         const result = await fetch(`https://api.spotify.com/v1/search?q=${query}&type=track`,{
@@ -38,39 +72,6 @@ function App(){
         setSongs(results)
         console.log(songs)
     }
-
-    useEffect(()=>{
-        const params = getHashParams()
-        if(params.access_token){
-            setAccessToken(params.access_token)
-        }
-    },[])
-
-
-    const getHashParams = () => {
-        const hashParams = {};
-        let e;
-        const r = /([^&;=]+)=?([^&;]*)/g;
-        const q = window.location.hash.substring(1);
-        while (e === r.exec(q)) {
-          hashParams[e[1]] = decodeURIComponent(e[2]);
-        }
-        return hashParams;
-      };
-
-    const handleAuthorize = ()=>{
-        const client_id = '66ad9f06e98a41d3b9c4210d7b4eb5c0'
-        const redirect_url = 'https://fawnjamming.netlify.app/'
-        const scopes = 'playlist-modify-private playlist-modify-public user-read-private'
-        let url = 'https://accounts.spotify.com/authorize' + 
-        '?response_type=token' +
-        '&client_id=' + encodeURIComponent(client_id) +
-        '&redirect_uri=' + encodeURIComponent(redirect_url)+
-        '&scope=' + encodeURIComponent(scopes)
-
-        window.location = url
-    }
-
     
 
     return(
