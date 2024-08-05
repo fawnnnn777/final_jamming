@@ -32,9 +32,9 @@ function App(){
 
     const handleAuthorize = ()=>{
         const client_id = '66ad9f06e98a41d3b9c4210d7b4eb5c0'
-        const redirect_url = 'http://localhost:3000'
+        const redirect_url = 'https://fawnjamming.netlify.app/'
         const scopes = 'playlist-modify-private playlist-modify-public user-read-private'
-        let url = 'https://fawnjamming.netlify.app/' + 
+        let url = 'https://accounts.spotify.com/authorize' + 
         '?response_type=token' +
         '&client_id=' + encodeURIComponent(client_id) +
         '&redirect_uri=' + encodeURIComponent(redirect_url)+
