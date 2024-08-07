@@ -10,6 +10,22 @@ function App(){
 
     const [accessToken, setAccessToken] = useState(null)
 
+    const [playlist, setPlaylist] = useState([])
+
+    const removeSong = (song)=>{
+        setPlaylist(prev => prev.filter(s => s != song))
+    }
+
+    const addSong =(song)=>{
+        if(playlist.includes(song)){
+            return 
+        }
+        setPlaylist([
+            ...playlist, song
+        ])
+        console.log(playlist)
+    }
+
     useEffect(()=>{
         const params = getHashParams()
         if(params.access_token){
@@ -32,7 +48,7 @@ function App(){
 
     const handleAuthorize = ()=>{
         const client_id = '66ad9f06e98a41d3b9c4210d7b4eb5c0'
-        const redirect_url = 'https://fawnjamming.netlify.app/'
+        const redirect_url = 'http://localhost:3000'
         const scopes = 'playlist-modify-private playlist-modify-public user-read-private'
         let url = 'https://accounts.spotify.com/authorize' + 
         '?response_type=token' +
@@ -80,8 +96,8 @@ function App(){
     <button onClick={handleAuthorize}>Authorize</button>
         <SearchBar searchQuery={searchQuery}></SearchBar>
         <div className='mainContainer'>
-        <Results songs={songs}></Results>
-        <Playlist></Playlist>
+        <Results addSong={addSong} songs={songs}></Results>
+        <Playlist removeSong={removeSong} playlist={playlist}></Playlist>
         </div>
     </>
 

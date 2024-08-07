@@ -8,7 +8,7 @@ function Results(props){
         <div className={styles.resultsDiv}>
             <h1>Results</h1>
             {props.songs.map((song)=>{
-                return <Track name={song.name} album={song.album} artist={song.artist}></Track>
+                return <Track addSong={props.addSong} song={song}></Track>
             })}
         </div>
         </>

@@ -2,8 +2,7 @@ import React from "react";
 import styles from './styles/playlist.module.css'
 import Track from "./Track";
 
-function Playlist(){
-
+function Playlist(props){
 
     return(
         <>
@@ -13,8 +12,11 @@ function Playlist(){
                 <input type="text"></input>
                 <button>Add To My Spotify Account</button>
             </form>
-            <Track></Track>
+            {props.playlist.map((song)=>{
+                return <Track removeSong={props.removeSong} isSaved={true} song={song}></Track>
+            })}
         </div>
+        
         </>
     )
 }
