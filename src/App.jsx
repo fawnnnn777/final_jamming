@@ -13,7 +13,7 @@ function App(){
     const [playlist, setPlaylist] = useState([])
 
     const removeSong = (song)=>{
-        setPlaylist(prev => prev.filter(s => s != song))
+        setPlaylist(prev => prev.filter(s => s !== song))
     }
 
     const addSong =(song)=>{
