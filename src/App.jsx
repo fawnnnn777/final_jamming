@@ -12,6 +12,69 @@ function App(){
 
     const [playlist, setPlaylist] = useState([])
 
+    async function getUsername() {
+        let user_id;
+        const result = await fetch('https://api.spotify.com/v1/me',{
+            method: "GET",
+            headers:{
+                'Authorization' : 'Bearer ' + accessToken
+            }
+        })
+        if (!result.ok) {
+            throw new Error(`HTTP error! Status: ${result.status}`);
+          }
+        else {const userData = await result.json()
+        user_id = userData.id
+        console.log(user_id)
+        return user_id
+        }
+    }
+
+    async function createPlaylist(name, uris) {
+        let playlist_id;
+        let urisArray = []
+        for(let song in playlist){
+            urisArray.push(playlist[song].uri)
+        }
+        console.log(playlist)
+        let user_id = await getUsername()
+        const playlistResponse = await fetch(`https://api.spotify.com/v1/users/${user_id}/playlists`,{
+            method: "POST",
+            headers:{
+                'Authorization' : 'Bearer ' + accessToken
+            },
+            body: JSON.stringify({
+                'name': name,
+                'public': false,
+                'description': 'new playlist'
+            })
+        })
+        if(!playlistResponse.ok){
+            throw new Error(`HTTP error! Status: ${playlistResponse.status}`);
+        }
+        else{
+            const result = await playlistResponse.json()
+            playlist_id = result.id
+            console.log(result.id)
+        }
+        
+        const createResponse = await fetch(`https://api.spotify.com/v1/playlists/${playlist_id}/tracks`,{
+            method:"POST",
+            headers:{
+                'Authorization' : 'Bearer ' + accessToken
+            },
+            body: JSON.stringify({
+                'uris': urisArray
+            })
+        })
+        const result = await createResponse.json()
+        console.log(result)
+        setPlaylist([])
+        setSongs([])
+        alert('your playlsit has been added to your account')
+    }
+
+
     const removeSong = (song)=>{
         setPlaylist(prev => prev.filter(s => s !== song))
     }
@@ -48,7 +111,7 @@ function App(){
 
     const handleAuthorize = ()=>{
         const client_id = '66ad9f06e98a41d3b9c4210d7b4eb5c0'
-        const redirect_url = 'http://localhost:3000'
+        const redirect_url = 'https://fawnjamming.netlify.app/'
         const scopes = 'playlist-modify-private playlist-modify-public user-read-private'
         let url = 'https://accounts.spotify.com/authorize' + 
         '?response_type=token' +
@@ -79,6 +142,7 @@ function App(){
             songs.push(songObj)
         }
         return songs
+
     }
 
     async function searchQuery(e, query){
@@ -97,7 +161,7 @@ function App(){
         <SearchBar searchQuery={searchQuery}></SearchBar>
         <div className='mainContainer'>
         <Results addSong={addSong} songs={songs}></Results>
-        <Playlist removeSong={removeSong} playlist={playlist}></Playlist>
+        <Playlist createPlaylist={createPlaylist} removeSong={removeSong} playlist={playlist}></Playlist>
         </div>
     </>
 

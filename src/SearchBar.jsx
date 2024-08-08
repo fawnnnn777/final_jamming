@@ -7,6 +7,7 @@ function SearchBar(props){
     const submit = (e)=>{
         e.preventDefault()
         props.searchQuery(e, userInput)
+        setUserInput('')
     }
 
     const handleInput = (e) =>{
